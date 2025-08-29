@@ -70,6 +70,7 @@ const enableBoxes = () => {
     box.disabled = false;
     box.innerText = "";
     box.style.color = "brown";
+    box.style.backgroundColor = "";
   });
 };
 
@@ -81,6 +82,14 @@ const showWinner = (winner) => {
   disableBoxes();
 };
 
+// function to highlight thw winning pattern
+
+const highlight = (a,b,c) => {
+  boxes[a].style.backgroundColor = "aqua";
+  boxes[b].style.backgroundColor = "aqua";
+  boxes[c].style.backgroundColor = "aqua";
+};
+
 // Check for win or draw
 const checkWinner = () => {
   for (let pattern of winPatterns) {
@@ -90,6 +99,7 @@ const checkWinner = () => {
     let pos3 = boxes[c].innerText;
 
     if (pos1 !== "" && pos1 === pos2 && pos2 === pos3) {
+      highlight(a,b,c);
       showWinner(pos1);
       return;
     }
@@ -106,3 +116,4 @@ const checkWinner = () => {
 // Event Listeners
 newGameBtn.addEventListener("click", resetGame);
 resetBtn.addEventListener("click", resetGame);
+
