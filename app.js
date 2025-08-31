@@ -19,7 +19,13 @@ let moves = 0; // Track moves for draw condition
 let score = {
   O: 0,
   X: 0,
-  draws: 0
+  draws: 0,
+};
+// new
+const updateScoreboard = () => {
+  player1Score.innerText = `${player1} (O): ${score.O}`;
+  player2Score.innerText = `${player2} (X): ${score.X}`;
+  drawScore.innerText = `Draws: ${score.draws}`;
 };
 
 // Ask for player names only once
@@ -44,14 +50,7 @@ const winPatterns = [
   [2, 5, 8],
   [0, 4, 8],
   [2, 4, 6],
-]
-
-// new
-const updateScoreboard = () => {
-  player1Score.innerText = `${player1} (O): ${score.O}`;
-  player2Score.innerText = `${player2} (X): ${score.X}`;
-  drawScore.innerText = `Draws: ${score.draws}`;
-};
+];
 
 const resetGame = () => {
   turnO = true;
@@ -100,13 +99,13 @@ const showWinner = (winner) => {
   let winnerName = winner === "O" ? player1 : player2;
   msg.innerText = `🎉 Congratulations, ${winnerName} Wins! 🎉`;
   score[winner]++;
-  updateScoreboard(); 
+  updateScoreboard();
   newContainer.classList.remove("hide");
   disableBoxes();
 };
 
 // function to highlight thw winning pattern
-const highlight = (a,b,c) => {
+const highlight = (a, b, c) => {
   boxes[a].style.backgroundColor = "aqua";
   boxes[b].style.backgroundColor = "aqua";
   boxes[c].style.backgroundColor = "aqua";
@@ -121,7 +120,7 @@ const checkWinner = () => {
     let pos3 = boxes[c].innerText;
 
     if (pos1 !== "" && pos1 === pos2 && pos2 === pos3) {
-      highlight(a,b,c);
+      highlight(a, b, c);
       showWinner(pos1);
       return;
     }
@@ -130,8 +129,8 @@ const checkWinner = () => {
   // Check for draw after all moves are made
   if (moves === 9) {
     msg.innerText = "😢 It's a Draw! Try Again!";
-    score.draws++; 
-    updateScoreboard(); 
+    score.draws++;
+    updateScoreboard();
     newContainer.classList.remove("hide");
     disableBoxes();
   }
