@@ -5,9 +5,22 @@ let newContainer = document.querySelector(".msg-container");
 let msg = document.querySelector("#msg");
 let turnIndicator = document.querySelector(".turn-indicator");
 
+// new
+let player1Score = document.querySelector("#player1-score");
+let player2Score = document.querySelector("#player2-score");
+let drawScore = document.querySelector("#draw-score");
+let resetScoreBtn = document.querySelector("#reset-scoreboard");
+
 let player1, player2;
 let turnO = true; // true = Player 1 (O), false = Player 2 (X)
 let moves = 0; // Track moves for draw condition
+
+// new
+let score = {
+  O: 0,
+  X: 0,
+  draws: 0
+};
 
 // Ask for player names only once
 const askPlayerNames = () => {
@@ -16,6 +29,7 @@ const askPlayerNames = () => {
     player2 = prompt("Enter Player 2's Name (X):", "Player 2") || "Player 2";
   }
   turnIndicator.innerText = `${player1}'s Turn (O)`;
+  updateScoreboard(); // new
 };
 
 // Call once at the start
@@ -30,7 +44,14 @@ const winPatterns = [
   [2, 5, 8],
   [0, 4, 8],
   [2, 4, 6],
-];
+]
+
+// new
+const updateScoreboard = () => {
+  player1Score.innerText = `${player1} (O): ${score.O}`;
+  player2Score.innerText = `${player2} (X): ${score.X}`;
+  drawScore.innerText = `Draws: ${score.draws}`;
+};
 
 const resetGame = () => {
   turnO = true;
@@ -78,12 +99,13 @@ const enableBoxes = () => {
 const showWinner = (winner) => {
   let winnerName = winner === "O" ? player1 : player2;
   msg.innerText = `🎉 Congratulations, ${winnerName} Wins! 🎉`;
+  score[winner]++;
+  updateScoreboard(); 
   newContainer.classList.remove("hide");
   disableBoxes();
 };
 
 // function to highlight thw winning pattern
-
 const highlight = (a,b,c) => {
   boxes[a].style.backgroundColor = "aqua";
   boxes[b].style.backgroundColor = "aqua";
@@ -108,6 +130,8 @@ const checkWinner = () => {
   // Check for draw after all moves are made
   if (moves === 9) {
     msg.innerText = "😢 It's a Draw! Try Again!";
+    score.draws++; 
+    updateScoreboard(); 
     newContainer.classList.remove("hide");
     disableBoxes();
   }
@@ -117,3 +141,10 @@ const checkWinner = () => {
 newGameBtn.addEventListener("click", resetGame);
 resetBtn.addEventListener("click", resetGame);
 
+// new
+resetScoreBtn.addEventListener("click", () => {
+  score.O = 0;
+  score.X = 0;
+  score.draws = 0;
+  updateScoreboard();
+});
