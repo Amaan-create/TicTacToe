@@ -21,7 +21,21 @@ let score = {
   X: 0,
   draws: 0,
 };
-// new
+
+// new elements for pikachu popup
+const pikachuOverlay = document.createElement("div");
+pikachuOverlay.id = "pikachu-overlay";
+
+const pikachuImage = document.createElement("img");
+pikachuImage.id = "pikachu-image";
+pikachuImage.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"; // official pikachu image
+
+pikachuOverlay.appendChild(pikachuImage);
+document.querySelector(".main-container").appendChild(pikachuOverlay);
+
+// load sound
+const pikaSound = new Audio("https://freesound.org/data/previews/331/331912_3248244-lq.mp3"); // pika pika sound from freesound.org
+
 const updateScoreboard = () => {
   player1Score.innerText = `${player1} (O): ${score.O}`;
   player2Score.innerText = `${player2} (X): ${score.X}`;
@@ -58,6 +72,9 @@ const resetGame = () => {
   enableBoxes();
   newContainer.classList.add("hide");
   turnIndicator.innerText = `${player1}'s Turn (O)`;
+
+  // new: hide pikachu overlay just in case
+  pikachuOverlay.classList.remove("show");
 };
 
 // Handle box clicks
@@ -102,9 +119,19 @@ const showWinner = (winner) => {
   updateScoreboard();
   newContainer.classList.remove("hide");
   disableBoxes();
+
+  // new: show pikachu and play sound
+  pikachuOverlay.classList.add("show");
+  pikaSound.currentTime = 0;
+  pikaSound.play();
+
+  // hide pikachu after animation ends (~1.5s)
+  setTimeout(() => {
+    pikachuOverlay.classList.remove("show");
+  }, 1500);
 };
 
-// function to highlight thw winning pattern
+// function to highlight the winning pattern
 const highlight = (a, b, c) => {
   boxes[a].style.backgroundColor = "aqua";
   boxes[b].style.backgroundColor = "aqua";
