@@ -15,7 +15,7 @@
     <main>
       <h1>TIC TAC TOE</h1>
       <p class="turn-indicator">Player 1's Turn (O)</p>
-      <div class="main-container">
+      <div class="main-container" style="position: relative;">
         <div class="container">
           <div class="game">
             <button class="box"></button>
@@ -27,6 +27,11 @@
             <button class="box"></button>
             <button class="box"></button>
             <button class="box"></button>
+          </div>
+
+          // pikachu overlay
+          <div id="pikachu-overlay" class="hide">
+            <img src="pikachu.png" alt="Pikachu" id="pikachu-image" />
           </div>
         </div>
 
@@ -44,6 +49,9 @@
         <button id="reset-btn" class="btn">Reset Game</button>
       </div>
     </main>
+
+    //pika pika pikachu
+      <audio id="pika-sound" src="pika-pika.mp3"></audio>
 
     <script src="app.js"></script>
   </body>
